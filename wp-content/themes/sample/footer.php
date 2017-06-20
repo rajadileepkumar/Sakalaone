@@ -136,7 +136,7 @@ $(document).ready(function(){
   $('input[type="file"]').change(function(e){
     var fileSize = parseFloat(e.target.files[0].size / 1024).toFixed(2);
         if(fileSize >= 120){
-           $("#fileupload").after("<span style='color:red'>File Size Less Than 120kb</span>");
+           $("#fileupload").after("<span style='color:red'>File size should be less than 120 KB</span>");
         }
     });
 });

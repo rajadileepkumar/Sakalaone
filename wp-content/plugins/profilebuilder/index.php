@@ -177,36 +177,41 @@ if(!class_exists('Profile_Builder')){
                 }
             ?>
             <div id="page-content">
-                <?php    
-                    $content = "<h3 align = 'center'>RESUME</h3><hr>";
+                <?php
+                    $content .= "<style> .label { font-weight:bold;float:left } .label > span { float:left } </style>";
+
+                    $content .= "<div style='border:3px solid black;margin:20px;'><br/>";
+                    $content .= "<div align='center' style='font-weight:bold;font-size:1.5em;'><u>RESUME</u></div><br/><br/>";
+                    $content .= "<div style='margin-left:100px;'>";
+
+                    
                     if(!empty($firstName)){
-                        $content .= "First Name : ".$firstName."<br/><br/>";    
+                        $content .= "<span class='label'>First Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span><span>".$firstName."</span><br/><br/>";    
                     }
                     if(!empty($lastName)){
-                        $content .= "Last Name : ".$lastName."<br/><br/>";    
+                        $content .= "<span class='label' > Last Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span><span>".$lastName."</span><br/><br/>";
                     }
                     if(!empty($fatherName)){
-                        $content .= "Father's Name : " . $fatherName."<br/><br/>";
+                        $content .= "<span class='label' > Father's Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span><span>".$fatherName."</span><br/><br/>";
                     }
                     if(!empty($motherName)){
-                        $content .= "Mother's Name : ".$motherName."<br/><br/>";    
+                        $content .= "<span class='label' > Mother's Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span><span>".$motherName."</span><br/><br/>";
                     }
                     if(!empty($phoneNumber)){
-                        $content .= "Phone Number : ".$phoneNumber."<br/><br/>"; 
+                        $content .= "<span class='label' > Phone Number &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span><span>".$phoneNumber."</span><br/><br/>";
                     }
                     if(!empty($email)){
-                         $content .= "Email : ".$email."<br/><br/>"; 
+                        $content .= "<span class='label' > Email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span><span>".$email."</span><br/><br/>";
                     }
-                    
                     if(!empty($dob)){
-                        $content .= "Date Of Birth : ".$dob."<br/><br/>";    
+                        $content .= "<span class='label' > Date Of Birth &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span><span>".$dob."</span><br/><br/>";
                     }
                     if(!empty($address)){
-                        $content .= "Address : ".$address."<br/><br/>";    
+                        $content .= "<span class='label' > Address &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span><span>".$address."</span><br/><br/>";
                     }
 
-                    $content .= "<table border='1'><tr><th colspan='4'>Academic Details</th></tr>";                    
-                    $content .= "<tr><th></th><th>College Name</th><th>Year of Pass</th><th>Percentage</th></tr>"; 
+                    $content .= "<table border='1' cellpadding='0' cellspacing='0' style='border-collapse:collapse;' width='900'><tr><th colspan='4'>Academic Details</th></tr>";                    
+                    $content .= "<tr><th>Qualification</th><th>Board</th><th>Passing Year</th><th>Percentage</th></tr>"; 
                     $content .= "<tr><td >SSLC</td>";                    
                     $content .= "<td>".$yopSslc."</td>";
                     $content .= "<td>".$regNumberSslc."</td>";
@@ -244,21 +249,21 @@ if(!class_exists('Profile_Builder')){
                     }
 
                     $content .= "</table></br><br/>";
+                    $content .= "<div><span class='label'> Experience: </span><span>-----------------------------------------------------------------------------------------------------------------------------------------------------</span></div></br><br/>";
 
-                                        
-                    if(!empty($place)){
-                       $content .= "Place : ".$place."<br/><br/>";
-                    }
-                    if(!empty($cDate)){
-                       $content .= "Date : ".$cDate;
-                    }
-
+                    $content .= "<div><span class='label'> Place :</span> ".$place."<div align='right' style='margin-right:50px;'>Your's faithfully<div/></div>";
+                    
+                    $content .= "<div><span class='label'> Date :</span> ".$cDate."<div align='right' style='margin-right:50px;'>".$firstName." ".$lastName."<div/></div>";
+                    
+                    $content .= "<br/><br/>"; 
+                    $content .= "</div>";   
+                    $content .= "</div>";
                 ?>
             </div>
             <div class="wrap">
-                    <h2>Profile Page</h2>
-                    <?php echo $message;?>
-                    <a class="word-export" href="javascript:void(0)">Print Resume</a>
+                    <div style='float:left;font-size:1.5em;font-weight:bold'>Profile Page &nbsp&nbsp&nbsp&nbsp </div>
+                    <div style='float:left;font-size:1.1em;'><a class="word-export" href="javascript:void(0)">Print Resume</a></div>
+                    <div align='center' style='font-size:1.1em;font-weight:bold'><?php echo $message;?></div>
                     <form action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post" name="abc" id="abc">
                         <table class="form-table">
                             <tr class="user-first-name-wrap">
@@ -328,28 +333,30 @@ if(!class_exists('Profile_Builder')){
                         <h2>Accdemic Details</h2>
                         <table class="form-table">
                             <tr>
-                                <td></td>
                                 <th style="text-align:center">
-                                    <label>College Name</label>
+                                    <label>Qualification</label>
+                                </th> 
+                                <th style="text-align:center">
+                                    <label>Board</label>
                                 </th>    
                                 <th style="text-align:center">
-                                    <label>Year Of Pass</label>
+                                    <label>Passing Year</label>
                                 </th>    
                                 <th style="text-align:center">
-                                    <label>Percentage % </label>
+                                    <label>Percentage (%) </label>
                                 </th>    
                             </tr>
                             <tr class="user-first-name-wrap" width="100%">
-                                <th>
+                                <th  width="25%">
                                     <label for="sslc">SSLC</label>
                                 </th>
-                                <td width="33.33%">
+                                <td width="25%">
                                     <input type="text" name="yopSslc" id="yopSslc" class="regular-text" value="<?php echo $yopSslc?>" style="width:20em;">
                                 </td>
-                                <td width="33.33%">
+                                <td width="25%">
                                     <input type="text" name="regNumberSslc" id="regNumberSslc" class="regular-text" value="<?php echo $regNumberSslc?>" style="width:20em;">
                                 </td>
-                                <td width="33.33">
+                                <td width="25%">
                                     <input type="text" name="perSslc" id="perSslc" class="regular-text" value="<?php echo $perSslc?>" style="width:20em;">
                                 </td>
                             </tr>
@@ -435,9 +442,6 @@ if(!class_exists('Profile_Builder')){
                                 text-align: right;
                                 position: relative;
                                 right: 100px;
-                            }
-                            #resumetable{
-
                             }
                         </style>
                         <script type="text/javascript">
