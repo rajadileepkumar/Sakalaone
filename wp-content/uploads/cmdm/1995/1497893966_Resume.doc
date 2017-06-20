@@ -1,0 +1,18 @@
+Mime-Version: 1.0
+Content-Base: http://localhost:8080/sample1/wp-admin/admin.php?page=profile_builder
+Content-Type: Multipart/related; boundary="NEXT.ITEM-BOUNDARY";type="text/html"
+
+--NEXT.ITEM-BOUNDARY
+Content-Type: text/html; charset="utf-8"
+Content-Location: http://localhost:8080/sample1/wp-admin/admin.php?page=profile_builder
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+
+</style>
+</head>
+<body>First Name : Raja<br>Last Name : Dileep<br>Father's Name : Test<br>Mother's Name : Test1<br>Ph Number : 8050359110<br>Email : raj@gmail.com<br>DOB:2017-03-02<br>Address : test<br>Accdemic Details<br>SSLC : SRS201370<br>PUC : SRS2011201120112011<br>Graduation : Test532553<br>PG : MCA201370<br>Place : Raichur<br>Date : 2017-03-01</body></html>
+--NEXT.ITEM-BOUNDARY--

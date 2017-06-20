@@ -1,0 +1,18 @@
+Mime-Version: 1.0
+Content-Base: http://localhost:8080/sample1/wp-admin/admin.php?page=profile_builder
+Content-Type: Multipart/related; boundary="NEXT.ITEM-BOUNDARY";type="text/html"
+
+--NEXT.ITEM-BOUNDARY
+Content-Type: text/html; charset="utf-8"
+Content-Location: http://localhost:8080/sample1/wp-admin/admin.php?page=profile_builder
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+
+</style>
+</head>
+<body><h3 align="center">RESUME</h3><hr>First Name : Raja<br><br>Last Name : Dileep<br><br>Father's Name : Test<br><br>Mother's Name : Test1<br><br>Phone Number : 8050359110<br><br>Email : raj@gmail.com<br><br>Date Of Birth : 2017-03-02<br><br>Address : test<br><br><table border="1"><tbody><tr><th colspan="4">Academic Details</th></tr><tr><th></th><th>College Name</th><th>Year of Pass</th><th>Percentage</th></tr><tr><td>SSLC</td><td>SRS</td><td>2013</td><td>70</td></tr><tr><td>PUC</td><td>SRS</td><td>2011</td><td>2011</td></tr><tr><td>Graduation</td><td>Test</td><td>5325</td><td>53</td></tr><tr><td>PG</td><td>MCA</td><td>2013</td><td>70</td></tr></tbody></table><br><br>Place : Raichur<br><br>Date : 2017-03-01</body></html>
+--NEXT.ITEM-BOUNDARY--

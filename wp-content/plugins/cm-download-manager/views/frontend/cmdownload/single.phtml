@@ -1,0 +1,88 @@
+<?php
+if( !isset($_GET['ajax']) ):
+    get_header();
+endif;
+?><div class="CMDM site-content"><?php
+if( have_posts() ):
+    while(have_posts()):
+        the_post();
+        $download = CMDM_GroupDownloadPage::getInstance(get_the_id());
+        ?>
+            <div class="CMDM-app">
+            	<h2><?php the_title(); ?></h2>
+                
+                <!--/h2 -->
+                <div class="main">
+                
+	                <div class="backtolib hide"><a href="<?php echo esc_attr(home_url('/cmdownloads')); ?>">&laquo;&nbsp;<?php
+	                	_e('Back to All Downloads', 'cm-download-manager'); ?></a></div>
+	                <div class="rating hide"><?php do_action('CMDM_show_rating', get_the_id()); ?></div>
+                	
+                	<?php CMDM_display_sidebar(CMDM_CmdownloadController::AREA_SINGLE_TOP); ?>
+                	
+                    <?php
+                    $screenshots = CMDM_get_screenshots();
+                    ?>
+                    <div class="searchResItems hide">
+                        <div class="scrollable">
+                            <div class="items">
+                                <?php
+                                if( !empty($screenshots) ):
+                                    foreach($screenshots as $screenshot):
+                                        ?>
+                                        <div> <img src="<?php echo esc_attr(CMDM_get_url('cmdownload', 'screenshot', array('size' => '720x220', 'img' => $screenshot)));
+                                        	?>" height="220" /> </div>
+                                        <?php
+                                    endforeach;
+                                else:
+                                    ?>
+                                    <div> <img src="<?php echo esc_attr(CMDM_get_default_screenshot()); ?>" height="220" width="720" alt="Screenshot" /> </div>
+                                <?php
+                                endif;
+                                ?>
+                            </div>
+                        </div>
+                        <!--/scrollable -->
+                        <div class="paging"><a href="javascript:void(0)" class="prev browse left">&laquo;</a>
+                            <div class="navi"></div>
+                            <a href="javascript:void(0)" class="next browse right">&raquo;</a></div>
+                        <!--/paging -->
+                    </div>
+                    
+                    <?php CMDM_display_sidebar(CMDM_CmdownloadController::AREA_SINGLE_SCREENSHOTS_BELOW); ?>
+                    
+                    <!--/searchResItems -->
+                    <ul class="tabNav hide">
+                        <li class="on"><a href="#description"><?php _e('Description', 'cm-download-manager'); ?></a></li>
+                        <?php if (CMDM_GroupDownloadPage::showSupport()): ?>
+                        	<li><a href="#support"><?php _e('Support', 'cm-download-manager'); ?></a></li>
+                        <?php endif; ?>
+                    </ul>
+                    <div class="boxGrey724 hide">
+                        <div class="tabItem">
+                            <?php the_content(); ?>
+
+                        </div>
+                        <?php if (CMDM_GroupDownloadPage::showSupport()): ?>
+                        	<div class="tabItem tabItemSupport"><?php do_action('CMDM_show_support', get_the_id()); ?></div>
+                        <?php endif; ?>
+                    </div>
+                    <!--/boxGrey724 -->
+                    
+                    <?php CMDM_display_sidebar(CMDM_CmdownloadController::AREA_SINGLE_BOTTOM); ?>
+                    
+                </div>
+                <!--/main -->
+                <div class="aside">
+                    <?php dynamic_sidebar(CMDM_CmdownloadController::AREA_SIDEBAR); ?>
+	            </div>
+                <!--/aside -->
+                <div class="clear"></div>
+            </div>
+            <!-- javascript coding -->
+            <?php
+        endwhile;
+    endif;
+    ?>
+</div><?php
+if( !isset($_GET['ajax']) ) get_footer();

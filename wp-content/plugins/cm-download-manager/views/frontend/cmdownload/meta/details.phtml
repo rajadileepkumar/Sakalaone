@@ -1,0 +1,27 @@
+<div class="sideBox cmdm-single-details">
+	<h3><?php _e('Download Info', 'cm-download-manager'); ?></h3>
+	<ul>
+		<li>
+	    	<strong><?php _e('Author', 'cm-download-manager'); ?>:</strong>
+	    	<span><?php echo $author; ?></span>
+    	</li>
+	    <?php if (CMDM_GroupDownloadPage::showVersionField()): ?>
+	    	<li>
+	    		<strong><?php _e('Version', 'cm-download-manager'); ?>:</strong>
+		    	<span><?php echo $version; ?></span>
+	    	</li>
+	    <?php endif; ?>
+	    <li>
+	    	<strong><?php _e('Downloads', 'cm-download-manager'); ?>:</strong>
+	    	<span><?php echo CMDM_number_of_downloads(); ?></span>
+    	</li>
+    	<li>
+	    	<strong><?php _e('Updated', 'cm-download-manager'); ?>:</strong>
+	    	<span><?php echo $updated; ?></span>
+    	</li>
+    	<?php if ($adminSupported): ?>
+			<li class="supported"><?php _e('Recommended', 'cm-download-manager'); ?></li>
+		<?php endif; ?>
+	</ul>
+	<div class="clear"></div>
+</div>

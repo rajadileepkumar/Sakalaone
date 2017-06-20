@@ -1,0 +1,17 @@
+<div class="cmdm-messages">
+<?php if (!empty($messages[CMDM_BaseController::MESSAGE_SUCCESS])):
+    foreach ($messages[CMDM_BaseController::MESSAGE_SUCCESS] as $msg):
+        ?>
+            <div class="updated"><p><?php echo $msg; ?></p></div>
+            <?php
+        endforeach;
+endif;
+if (!empty($messages[CMDM_BaseController::MESSAGE_ERROR])):
+    foreach ($messages[CMDM_BaseController::MESSAGE_ERROR] as $msg):
+            ?>
+            <div class="error"><p><?php echo $msg; ?></p></div>
+            <?php
+        endforeach;
+
+endif;
+?></div>

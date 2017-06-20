@@ -1,0 +1,51 @@
+/* CSS Document for WP-SMS Plugin */
+
+/* You can change this CSS according to your Need */
+
+/*#wp-sms-form table { border-collapse: collapse; border-spacing: 0; }*/
+#wp-sms-form tr { /*border-bottom: 1px solid #EEE;*/ }
+#wp-sms-form td, #wp-sms-form th { padding: 5px; /*border: 1px solid #CCC*/; font-weight: normal; vertical-align: top; text-align: left; }
+#wp-sms-form input[type="text"] { width: 250px; height: 18px; padding: 1px 0; }
+#wp-sms-form input#mobile{width:100px;}
+
+#security_code{width:70px !important;}
+.captcha_option_input{width:70px;}
+#wpsms_captcha_image{display:inline;}
+#wpsms_captcha_image  img{ margin:1px;}
+
+/* Admin CSS */
+#wpsms_api1{font:normal 14px/22px Verdana;}
+.notice, div.error, div.updated{
+	display: none !important; 
+}
+
+@media screen and (max-width:800px){
+	input[type="text"]{
+		//width: 28% !important;
+	}	
+}
+.margin-20{
+	height: 20px;
+}
+
+.form{
+	width: 100%;
+}
+
+.btn-group.open .dropdown-toggle{
+	width: 100% !important;
+}
+
+/*.multiselect-container{
+	width: 100% !important;
+}*/
+
+.error{color: #ff0000;}
+
+.checkbox{color: #000;}
+
+.sb-btn{width: 20%; height: auto; float: left; padding: 12px 8px !important; margin-bottom: 20px; 
+background-color:#376C89 !important; border: 1px solid #376C89 !important; font-size: 14px !important; color: #FFF !important;}
+
+
+
