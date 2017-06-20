@@ -86,12 +86,6 @@ get_header();?>
 	</div>
 	</div>
 	<?php 
-$user_id = 188;
-$meta = get_user_meta( $user_id );
-print_r($meta);
-$user_id = 188;
-$awesome_level = 0;
-add_user_meta( $user_id, 'active', $awesome_level);
 ?>
 	
 <?php get_footer();?>
