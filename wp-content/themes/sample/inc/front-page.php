@@ -70,12 +70,12 @@ get_header();?>
                         		
                         			if($data->age == "Yes"){
                             			echo '<li class="abc">';
-                            				echo '<a href="'.$data->email.'">'.$data->name.'</a>';
+                            				echo '<a href="'.$data->email.'" target="_blank">'.$data->name.'</a>';
                             			echo '</li>';
                             		}
                             		if($data->age == "No"){
                             			echo '<li class="xyz">';
-                            				echo '<a href="'.$data->email.'">'.$data->name.'</a>';
+                            				echo '<a href="'.$data->email.'" target="_blank">'.$data->name.'</a>';
                             			echo '</li>';
                             		}
                         	}

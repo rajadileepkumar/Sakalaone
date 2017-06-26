@@ -6,7 +6,7 @@
  *
  * @package Sample
  */
-
+define('PATH',plugin_dir_path(__FILE__ ));
 if ( ! function_exists( 'sample_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress features.
