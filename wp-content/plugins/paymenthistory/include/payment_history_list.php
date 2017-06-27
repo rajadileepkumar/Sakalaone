@@ -13,62 +13,134 @@ class Payment_List extends WP_List_Table{
         ]);
     }
 
+    private function table_data($customvar){
+        global $wpdb;
+        $data = array();
+        $field_name_one = array();
+        $field_name_two = array();
+        $field_name_three = array();
+        $field_name_four = array();
+        $field_name_five = array();
+        $field_name_six = array();
+        $field_name_seven = array();
+        $field_name_eight = array();
+        if($customvar == 'all'){
+            $wk_post=$wpdb->get_results("SELECT * FROM wp_users as wu INNER JOIN wp_payment_history as wp on wu.ID = wp.userId"); 
+        }
+        if($customvar == 'Success'){
+            $wk_post=$wpdb->get_results("SELECT * FROM wp_users as wu INNER JOIN wp_payment_history as wp on wu.ID = wp.userId where wp.pStatus='$customvar'"); 
+        }
+
+        if($customvar == 'Intiated'){
+            $wk_post=$wpdb->get_results("SELECT * FROM wp_users as wu INNER JOIN wp_payment_history as wp on wu.ID = wp.userId where wp.pStatus='$customvar'"); 
+        }
+
+        if($customvar == 'Aborted'){
+            $wk_post=$wpdb->get_results("SELECT * FROM wp_users as wu INNER JOIN wp_payment_history as wp on wu.ID = wp.userId where wp.pStatus='$customvar'"); 
+        }
+
+        if($customvar == 'Failure'){
+            $wk_post=$wpdb->get_results("SELECT * FROM wp_users as wu INNER JOIN wp_payment_history as wp on wu.ID = wp.userId where wp.pStatus='$customvar'"); 
+        }
+
+        if($customvar == 'Auto-Cancelled'){
+            $wk_post=$wpdb->get_results("SELECT * FROM wp_users as wu INNER JOIN wp_payment_history as wp on wu.ID = wp.userId where wp.pStatus='$customvar'"); 
+        }
+
+        $i=0;
+        foreach ($wk_post as $value) {   
+            $field_name_one[] = $value->pId;
+            $field_name_two[] = $value->user_login;
+            $field_name_three[] = $value->pAmount;
+            $field_name_four[] = $value->pStatus;
+            $field_name_five[] = $value->pDate;
+            $field_name_six[] = $value->orderId;
+            $field_name_seven[] = $value->trackingId;
+            $field_name_eight[] = $value->userId;                        
+            $data[] = array(
+                'pId' => $field_name_one[$i],
+                'user_login' => $field_name_two[$i],
+                'pAmount' => $field_name_three[$i],
+                'pStatus' => $field_name_four[$i],
+                'pDate' => $field_name_five[$i],
+                'orderId' => $field_name_six[$i],
+                'trackingId' => $field_name_seven[$i],
+                'userId' => $field_name_eight[$i]
+            );
+            $i++;
+        }
+        return $data;
+
+    }
+
     public function prepare_items()
     {
         global $wpdb;
 
-        $table_name = $wpdb->prefix . 'payment_history'; // do not forget about tables prefix
-        $table_name1 = $wpdb->prefix.'users';
-
         $columns = $this->get_columns();
-
         $hidden = $this->get_hidden_columns();
-
         $sortable = $this->get_sortable_columns();
-        $page_number = 1;
-
-        $per_page = 2; // constant, how much records will be shown per page
-        // here we configure table headers, defined in our methods
-
+        $customvar = ( isset($_REQUEST['customvar']) ? $_REQUEST['customvar'] : 'all');
+        $perPage = 10; 
         $this->_column_headers = array($columns, $hidden, $sortable);
-
         $this->process_bulk_action();
+        $currentPage = $this->get_pagenum();
 
-        // will be used in pagination settings
-        $total_items = $wpdb->get_var("SELECT COUNT(ID) FROM $table_name as t INNER JOIN $table_name1 as t1 ON t.userId = t1.ID");
-
-        // prepare query params, as usual current page, order by and order direction
-        $paged = isset($_REQUEST['paged']) ? max(0, intval($_REQUEST['paged']) - 1) : 0;
-
-        $orderby = (isset($_REQUEST['orderby']) && in_array($_REQUEST['orderby'], array_keys($this->get_sortable_columns()))) ? $_REQUEST['orderby'] : 'pDate';
-
-        $order = (isset($_REQUEST['order']) && in_array($_REQUEST['order'], array('asc', 'desc'))) ? $_REQUEST['order'] : 'desc';
-        
-        // [REQUIRED] define $items array
-        // notice that last argument is ARRAY_A, so we will retrieve array
-        //var_dump("SELECT user_login,pAmount,pStatus,pDate,orderId,trackingId,FROM $table_name as t INNER JOIN $table_name1 as t1 on t.userId = t1.ID ORDER BY $orderby $order LIMIT $paged,$per_page"); 
-        /*$sql = "SELECT user_login,pAmount,pStatus,pDate,orderId,trackingId FROM $table_name as t INNER JOIN $table_name1 as t1 on t.userId = t1.ID";   
-        $sql .= " ORDER BY $orderby $order";
-        $sql .= " LIMIT $per_page";
-        $sql .= ' OFFSET ' . ( $page_number - 1 ) * $per_page;
-        $this->items = $wpdb->get_results( $sql, 'ARRAY_A' );
-        var_dump($sql);*/
-
-        $this->items = $wpdb->get_results($wpdb->prepare("SELECT pId,user_login,pAmount,pStatus,pDate,orderId,trackingId FROM $table_name as t INNER JOIN $table_name1 as t1 on t.userId = t1.ID ORDER BY $orderby $order LIMIT %d OFFSET %d", $per_page,$paged),ARRAY_A);
-
-        // [REQUIRED] configure pagination
-        $this->set_pagination_args(array(
-            'total_items' => $total_items, // total items defined above
-            'per_page' => $per_page, // per page constant defined at top of method
-            'total_pages' => ceil($total_items / $per_page) // calculate pages count
-        ));
-
+        $data = $this->table_data($customvar);
+        $totalitems = count($data);
+        $this->set_pagination_args( array(
+            'total_items' => $totalitems,
+            'per_page'    => $perPage
+        ) );
+        $data = array_slice($data,(($currentPage-1)*$perPage),$perPage);
+        $this->_column_headers = array($columns, $hidden, $sortable);
+        $this->items = $data;
     }
+
+    private function sort_data($a,$b){
+        $orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'ID'; //If no sort, default to title
+        $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'desc'; //If no order, default to asc
+        $result = strcmp($a[$orderby], $b[$orderby]); //Determine sort order
+        return ($order==='asc') ? $result :-$result; //Send final sort direction to usort
+    }
+
+    public  function get_views(){
+       $views = array();
+       $current = ( !empty($_REQUEST['customvar']) ? $_REQUEST['customvar'] : 'all');
+       //All link
+       $class = ($current == 'all' ? ' class="current"' :'');
+       $all_url = remove_query_arg('customvar');
+       $views['all'] = "<a href='{$all_url }' {$class} >All</a>";
+
+       //Foo link
+       $foo_url = add_query_arg('customvar','Success');
+       $class = ($current == 'Success' ? ' class="current"' :'');
+       $views['Success'] = "<a href='{$foo_url}' {$class} >Payement Success</a>";
+
+       //Bar link
+       $bar_url = add_query_arg('customvar','Failure');
+       $class = ($current == 'Failure' ? ' class="current"' :'');
+       $views['Failure'] = "<a href='{$bar_url}' {$class} >Payement Failure</a>";
+
+       $bar_url = add_query_arg('customvar','Intiated');
+       $class = ($current == 'Intiated' ? ' class="current"' :'');
+       $views['Intiated'] = "<a href='{$bar_url}' {$class} >Payement Intiated</a>";
+
+       $bar_url = add_query_arg('customvar','Aborted');
+       $class = ($current == 'Aborted' ? ' class="current"' :'');
+       $views['Aborted'] = "<a href='{$bar_url}' {$class} >Payement Aborted</a>";
+
+       $bar_url = add_query_arg('customvar','Auto-Cancelled');
+       $class = ($current == 'Auto-Cancelled' ? ' class="current"' :'');
+       $views['Auto-Cancelled'] = "<a href='{$bar_url}' {$class} >Auto-Cancelled</a>";
+
+       return $views;
+    }
+
 
     public function get_columns()
     {
         $columns = array(
-            'cb' => '<input type="checkbox" />', //Render a checkbox instead of text
             'pId' => 'PID',
             'user_login' => 'Username',
             'pAmount' => 'Amount',
@@ -76,6 +148,7 @@ class Payment_List extends WP_List_Table{
             'pDate' => 'Date',
             'orderId' => 'Orderid',
             'trackingId' => 'CCA reference No',
+            'userId' => 'User Id'
             
         );
 

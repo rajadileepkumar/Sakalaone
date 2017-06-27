@@ -19,7 +19,7 @@ if(!class_exists('Subscriber_Vendor')){
 
         public function subscriber_vendor_menu(){
         	add_menu_page('Registerd Users', 'Registerd Users', 'edit_pages', 'registerd_users', array($this,'registerd_users_page'));
-        	add_submenu_page('registerd_users','Vendor Registerd Users','Vendor Registerd Users','edit_pages','vendor_users_page',array($this,'vendor_users_page'));
+        	//add_submenu_page('registerd_users','Vendor Registerd Users','Vendor Registerd Users','edit_pages','vendor_users_page',array($this,'vendor_users_page'));
         }
 
         public function registerd_users_page(){
