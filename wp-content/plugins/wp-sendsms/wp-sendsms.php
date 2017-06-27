@@ -938,7 +938,6 @@ curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
 $response = curl_exec($ch);
-
 $curl_errno = curl_errno($ch);
 $curl_error = curl_error($ch);
 curl_close ($ch);

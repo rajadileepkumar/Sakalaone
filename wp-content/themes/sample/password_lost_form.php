@@ -2,10 +2,6 @@
 /*
 *Template Name:Forgot Password
 */
-
-
-
-
 get_header();
 ?>
 
@@ -26,7 +22,8 @@ get_header();
             </div>
             <div class="form-group">        
               <div class="col-md-offset-3 col-md-4">
-                <input type="submit" name="submit" class="lostpassword-button btn btn-submit sb sb-btn1" name="lostPassword" value="Send Password"/>
+                <input type="button" name="submit" class="lostpassword-button btn btn-submit sb sb-btn1" name="lostPassword" value="Send Password" onclick="sendForgot()"/>
+                <span id="resultOTP"></span>
               </div>
             </div>
             <div class="form-group">
