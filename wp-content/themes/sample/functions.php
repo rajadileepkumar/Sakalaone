@@ -357,26 +357,11 @@ add_action( 'wp_ajax_nopriv_my_request_OTP', 'my_request_OTP' );
 add_action( 'wp_ajax_my_request_OTP', 'my_request_OTP' );
 
 function my_request_OTP(){
-  global $wpdb;
-  echo $mobileNumber = $_GET['number'];
-  echo $template = $_GET['template'];
-  if($template){
-      $sql = "select ID from wp_users where user_login='$mobileNumber'";
-      $Id = $wpdb->get_var($sql);
-      $newPassword = uniqid();
-      if($Id){
-          $result = wp_update_user(array('ID' => $Id, 'user_pass' => $newPassword));
-          $content ="Your New Password is ".$newPassword.". Please Reset With in 24hrs";
-          $url = "http://2factor.in/API/V1/5a55058b-ed5f-11e6-8c71-00163ef91450/SMS/".$mobileNumber."/AUTOGEN/SakalaoneOTP";
-      }
-  }
-  else{
-   $url = "http://2factor.in/API/V1/5a55058b-ed5f-11e6-8c71-00163ef91450/SMS/".$mobileNumber."/AUTOGEN/SakalaoneOTP"; 
-  }
+  $mobileNumber = $_GET['number'];
   $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => $url,
+          CURLOPT_URL => "http://2factor.in/API/V1/5a55058b-ed5f-11e6-8c71-00163ef91450/SMS/".$mobileNumber."/AUTOGEN",
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => "",
           CURLOPT_MAXREDIRS => 10,
