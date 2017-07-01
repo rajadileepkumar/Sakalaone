@@ -21,13 +21,14 @@ class Student_list extends WP_List_Table{
         $field_name_three = array();
         $field_name_four = array();
         if($customvar == 'all'){
-            $wk_post=$wpdb->get_results("SELECT * from wp_users as u INNER join wp_usermeta as um INNER JOIN wp_users_metadata umm on u.ID = um.user_id and u.ID = umm.id WHERE meta_key = 'wp_capabilities' AND meta_value = 'a:1:{s:10:\"subscriber\";b:1;}'");
+            $wk_post=$wpdb->get_results("SELECT * from wp_users as u INNER join wp_usermeta as um INNER JOIN wp_users_metadata umm INNER JOIN wp_payment_history as wph on u.ID = um.user_id and u.ID = umm.id AND u.ID = wph.userId WHERE um.meta_key = 'wp_capabilities' AND um.meta_value = 'a:1:{s:10:\"subscriber\";b:1;}'");
         }
         else if ($customvar == 'payementsuccess') {
-           $wk_post=$wpdb->get_results("SELECT * from wp_users as u INNER join wp_usermeta as um INNER JOIN wp_users_metadata umm on u.ID = um.user_id and u.ID = umm.id WHERE meta_key = 'wp_capabilities' AND meta_value = 'a:1:{s:10:\"subscriber\";b:1;}' AND umm.paymentstatus = 1 AND umm.checkstatus = 1");
+            echo "SELECT * from wp_users as u INNER join wp_usermeta as um INNER JOIN wp_users_metadata umm INNER JOIN wp_payment_history as wph on u.ID = um.user_id and u.ID = umm.id AND u.ID = wph.userId WHERE um.meta_key = 'wp_capabilities' AND um.meta_value = 'a:1:{s:10:\"subscriber\";b:1;}' AND umm.paymentstatus = 1 AND umm.checkstatus = 1";
+           $wk_post=$wpdb->get_results("SELECT * from wp_users as u INNER join wp_usermeta as um INNER JOIN wp_users_metadata umm INNER JOIN wp_payment_history as wph on u.ID = um.user_id and u.ID = umm.id AND u.ID = wph.userId WHERE um.meta_key = 'wp_capabilities' AND um.meta_value = 'a:1:{s:10:\"subscriber\";b:1;}' AND umm.paymentstatus = 1 AND umm.checkstatus = 1");
         }
         else if($customvar == 'paymentfailure'){
-            $wk_post=$wpdb->get_results("SELECT * from wp_users as u INNER join wp_usermeta as um INNER JOIN wp_users_metadata umm on u.ID = um.user_id and u.ID = umm.id WHERE meta_key = 'wp_capabilities' AND meta_value = 'a:1:{s:10:\"subscriber\";b:1;}' AND umm.paymentstatus = 0 AND umm.checkstatus = 1");
+            $wk_post=$wpdb->get_results("SELECT * from wp_users as u INNER join wp_usermeta as um INNER JOIN wp_users_metadata umm INNER JOIN wp_payment_history as wph on u.ID = um.user_id and u.ID = umm.id AND u.ID = wph.userId WHERE um.meta_key = 'wp_capabilities' AND um.meta_value = 'a:1:{s:10:\"subscriber\";b:1;}' AND umm.paymentstatus = 0 AND umm.checkstatus = 1");
         }
         $i=0;
         foreach ($wk_post as $value) {   
@@ -36,7 +37,7 @@ class Student_list extends WP_List_Table{
             $field_name_three[] = $value->paymentstatus;
             $field_name_four[] = $value->subendate;            
             $data[] = array(
-                'ID' => $field_name_one[$i],
+                'userId' => $field_name_one[$i],
                 'user_login' => $field_name_two[$i],
                 'paymentstatus' => $field_name_three[$i],
                 'subendate' => $field_name_four[$i],
@@ -79,7 +80,7 @@ class Student_list extends WP_List_Table{
     public function get_columns()
     {
         $columns = array(
-            'ID' => 'ID',
+            'userId' => 'userId',
             'user_login' => 'UserLogin',
             'paymentstatus' => 'Payement Status',
             'subendate' => 'Subscription End Data'

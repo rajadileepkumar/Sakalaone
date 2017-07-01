@@ -1,17 +1,14 @@
 <?php
-/**
-*Template Name:Vendor Register
+/*
+* Template Name:Vendor Payment 
 */
-get_header();?>
+get_header()?>
 <div id="main-content" class="main-content">
 	<div id="primary" class="content-area">
 		<div id="contnet"class="site-content" role="area">
 			<div class="container">
 				<?php 
 					if(is_user_logged_in()){
-						echo '<h1>Aleready Login</h1>';
-					}
-					else{
 						?>
 							<div class="row">
 								<div class="col-md-12">
@@ -85,6 +82,9 @@ get_header();?>
 								</div>
 							</div>
 						<?php
+					}
+					else{
+						echo "You Don't Have Permission";
 					}
 				?>
 			</div>
