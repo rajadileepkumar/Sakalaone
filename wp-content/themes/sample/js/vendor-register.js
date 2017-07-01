@@ -108,6 +108,7 @@ function vendorRegisterClick(){
 
 $(document).on("keyup", "#vUserName", function () {
     var vuserName = $('#vUserName').val();
+    //$('#vendorRegister').prop( "disabled", true );
     $.ajax({
         method:'POST',
         url:ajax_object.ajax_url,
@@ -116,12 +117,16 @@ $(document).on("keyup", "#vUserName", function () {
             'vuserName' : vuserName,
         },
         success:function(data){
-            if(data){
-                $('#v-available').html(data);
-                // $('#vendorRegister').attr("disabled","disabled");
+            var msg="UserName Not available";
+            if(data == 1){
+                $('#vendorRegister').removeClass('active').addClass('disabled');
+                $('#vUserName').addClass('notavailable').removeClass('available');
+                $('#v-available').html(msg+" "+vuserName);
             }else{
-                $('#v-available').html(data);
-                // $('#vendorRegister').removeAttr("disabled");    
+                msg = "UserName Available";
+                $('#vendorRegister').removeClass('disabled').addClass('active');
+                $('#vUserName').addClass('available').removeClass('notavailable');
+                $('#v-available').html(msg+" "+vuserName);
             }
         },
         error:function (errorThrown) {
@@ -141,13 +146,16 @@ $(document).on("keyup", "#vEmail", function () {
             'vEmail' : vEmail,
         },
         success:function(data){
-            if(data){
-                $('#v-email-available').html(data);
-                // $('#vendorRegister').attr("disabled","disabled");
-            }else if(data){
-                $('#v-email-available').html(data);
-                $('#vendorRegister').removeAttr("disabled");
-                
+            var msg="Email Id Already Exists";
+            if(data == 1){
+                $('#vendorRegister').removeClass('active').addClass('disabled');
+                $('#vEmail').addClass('notavailable').removeClass('available');
+                $('#v-email-available').html(msg+" "+vEmail);
+            }else{
+                msg = "Email Id Available";
+                $('#vendorRegister').removeClass('disabled').addClass('active');
+                $('#vEmail').addClass('available').removeClass('notavailable');
+                $('#v-email-available').html(msg+" "+vEmail);
             }
             
             console.log(data);
@@ -169,12 +177,16 @@ $(document).on("keyup", "#vMobile", function () {
             'vuserName' : vuserName,
         },
         success:function(data){
-            if(data){
-                // $('#vendorRegister').attr("disabled","disabled");
-                $('#v-mobile-available').html(data);    
+            var msg="Mobile Number Already Exists";
+            if(data == 1){
+                $('#vendorRegister').removeClass('active').addClass('disabled');
+                $('#vMobile').addClass('notavailable').removeClass('available');
+                $('#v-mobile-available').html(msg+" "+vuserName);
             }else{
-                $('#vendorRegister').removeAttr("disabled");
-                $('#v-mobile-available').html(data);    
+                msg = "Mobile Available";
+                $('#vendorRegister').removeClass('disabled').addClass('active');
+                 $('#vMobile').addClass('available').removeClass('notavailable');
+                $('#v-mobile-available').html(msg+" "+vuserName);
             }
             
             console.log(data);

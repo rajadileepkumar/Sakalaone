@@ -3,10 +3,10 @@
 function my_request_availabulity_username(){
 	$userName = $_POST['vuserName'];
 	if(username_exists($userName)){
-		echo 'User Name Not Available '.$userName;
+		echo 1;
 	}
 	else{
-		echo 'Username Available '.$userName;
+		echo 0;
 	}
 	die();
 }
@@ -20,9 +20,11 @@ function my_request_availabulity_email(){
 	$email = $_POST['vEmail'];
 	$exists = email_exists($email);
 	if ($exists) {
-	    echo 'Email Id Already Exists '.$email;
+	    echo 1;
+	    //echo 'Email Id Already Exists '.$email;
 	} else {
-	    echo 'Email Id Available '.$email;
+		echo 0;
+	    //echo 'Email Id Available '.$email;
 	}
 	die();
 }
@@ -34,9 +36,11 @@ function my_request_availabulity_mobile(){
 	$vuserName = $_POST['vuserName'];
 	$exists = username_exists($vuserName);
 	if ($exists) {
-	    echo 'Mobile Number Already Exists '.$userName;
+	    echo 1;
+	    //echo 'Mobile Number Already Exists '.$userName;
 	} else {
-	    echo 'Mobile Available '.$userName;
+		echo 0;
+	    //echo 'Mobile Available '.$userName;
 	}
 	die();
 }

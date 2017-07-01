@@ -77,7 +77,7 @@ get_header();?>
 		                                    <label class="col-md-4 control-label"></label>
 		                                    <div class="col-md-8">
 		                                        <div class="col-md-3 padding-left">
-		                                            <input type="submit" class="btn btn-submit sb sb-btn" value="Register" name="vendorRegister" id="vendorRegister" onclick="vendorRegisterClick();"> 
+		                                            <input type="submit" class="active btn btn-submit sb sb-btn" value="Register" name="vendorRegister" id="vendorRegister" onclick="vendorRegisterClick();"> 
 		                                        </div>
 		                                    </div>    
                                 		</div>
@@ -95,5 +95,11 @@ get_header();?>
 	.sb-btn{
         width: 100%;
     }
+    .notavailable {
+    	border: 3px #C33 solid !important;
+	}
+	.available {
+	    border: 3px #090 solid !important;
+	}
 </style>
 <?php get_footer();?>
