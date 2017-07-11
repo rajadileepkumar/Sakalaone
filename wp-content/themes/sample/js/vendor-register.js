@@ -197,3 +197,39 @@ $(document).on("keyup", "#vMobile", function () {
     });
     return false;
 });
+$(document).ready(function(){
+    $('#vendorRegisterConfirm').click(function(){
+        var firstName = $('#firstName').html();
+        var lastName = $('#lastName').html();
+        var userName = $('#userName').html();
+        var email = $('#email').html();
+        var mobile = $('#mobile').html();
+        var password = $('#password').html();
+        var home = $('#homeUrl').html();
+        //alert("firstName"+firstName+"lastName"+lastName+"userName"+userName+"email"+email+"password"+password);
+        $.ajax({
+            method:'POST',
+            url:ajax_object.ajax_url,
+            data:{
+                'action' :'my_request_vendor_register',
+                'firstName' : firstName,
+                'lastName' : lastName,
+                'userName' : userName,
+                'email' : email,
+                'mobile':mobile,
+                'password' : password,
+            },
+            success:function(data){
+                if(data == 1){
+                    window.location.href =  home;
+                }
+            },
+            error:function (errorThrown) {
+                console.log(errorThrown)
+            }
+
+        });
+        
+    });
+    return false;
+});
