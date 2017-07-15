@@ -23,26 +23,48 @@ class Vendor_list extends WP_List_Table{
         $field_name_two = array();
         $field_name_three = array();
         $field_name_four = array();
+        
         if($customvar == 'all'){
-            $wk_post=$wpdb->get_results("SELECT u.ID,u.user_login,vm.vstatus,vm.vcreated_date FROM $wp_users as u INNER JOIN $wp_vendor_metadata as vm INNER JOIN $wp_users_metadata as um ON u.ID = vm.vuser_id AND u.ID = um.user_id WHERE um.meta_key = 'wp_capabilities' AND um.meta_value = 'a:1:{s:6:\"vendor\";b:1;}'");
+            $wk_post=$wpdb->get_results("SELECT u.ID,u.user_login,u.user_email,vm.vstatus,vm.vcreated_date FROM $wp_users as u INNER JOIN $wp_vendor_metadata as vm INNER JOIN $wp_users_metadata as um ON u.ID = vm.vuser_id AND u.ID = um.user_id WHERE um.meta_key = 'wp_capabilities' AND um.meta_value = 'a:1:{s:6:\"vendor\";b:1;}'");
         }
         else if ($customvar == 'active_vendors') {
-           $wk_post=$wpdb->get_results("SELECT u.ID,u.user_login,vm.vstatus,vm.vcreated_date FROM $wp_users as u INNER JOIN $wp_vendor_metadata as vm INNER JOIN $wp_users_metadata as um ON u.ID = vm.vuser_id AND u.ID = um.user_id WHERE um.meta_key = 'wp_capabilities' AND um.meta_value = 'a:1:{s:6:\"vendor\";b:1;}' AND vm.vstatus=1");
+           $wk_post=$wpdb->get_results("SELECT u.ID,u.user_login,u.user_email,vm.vstatus,vm.vcreated_date FROM $wp_users as u INNER JOIN $wp_vendor_metadata as vm INNER JOIN $wp_users_metadata as um ON u.ID = vm.vuser_id AND u.ID = um.user_id WHERE um.meta_key = 'wp_capabilities' AND um.meta_value = 'a:1:{s:6:\"vendor\";b:1;}' AND vm.vstatus=1 ORDER BY vm.vid DESC");
         }
         else if($customvar == 'deactive_vendors'){
-            $wk_post=$wpdb->get_results("SELECT u.ID,u.user_login,vm.vstatus,vm.vcreated_date FROM $wp_users as u INNER JOIN $wp_vendor_metadata as vm INNER JOIN $wp_users_metadata as um ON u.ID = vm.vuser_id AND u.ID = um.user_id WHERE um.meta_key = 'wp_capabilities' AND um.meta_value = 'a:1:{s:6:\"vendor\";b:1;}' AND vm.vstatus=0");
+            $wk_post=$wpdb->get_results("SELECT u.ID,u.user_login,u.user_email,vm.vstatus,vm.vcreated_date FROM $wp_users as u INNER JOIN $wp_vendor_metadata as vm INNER JOIN $wp_users_metadata as um ON u.ID = vm.vuser_id AND u.ID = um.user_id WHERE um.meta_key = 'wp_capabilities' AND um.meta_value = 'a:1:{s:6:\"vendor\";b:1;}' AND vm.vstatus=0 ORDER BY vm.vid DESC");
         }
         $i=0;
         foreach ($wk_post as $value) {   
             $field_name_one[] = $value->ID;
             $field_name_two[] = $value->user_login;
-            $field_name_three[] = $value->vstatus;
-            $field_name_four[] = $value->vcreated_date;            
+            if($value->vstatus == 0){
+                $field_name_three[] = 'Deactive';
+            }
+            elseif ($value->vstatus == 1){
+                $field_name_three[] = 'Active';
+            }
+            $vmobile = get_user_meta($value->ID,'vmobile',true);
+            $field_name_four[] = $value->vcreated_date;
+            $field_name_five[] = $value->user_email;
+            
+            if ($value->vstatus == 1){
+                $field_name_six[] =  '<a href="?page=vendor_edit&user_id='.$value->ID.'">Edit</a>'.'<a style="padding-left:10px;" href="?page=vendor_wallet_history&user_id='.$value->ID.'">View</a>';     
+            }
+
+            elseif ($value->vstatus == 0){
+                $field_name_six[] =  '<a href="?page=vendor_edit&user_id='.$value->ID.'">Edit</a>';     
+            }
+
+            $field_name_seven[] = $vmobile;
+
             $data[] = array(
                 'userId' => $field_name_one[$i],
                 'user_login' => $field_name_two[$i],
-                'vstatus' => $field_name_three[$i],
                 'vcreated_date' => $field_name_four[$i],
+                'user_email' => $field_name_five[$i],
+                'vstatus' => $field_name_three[$i],
+                'edit' => $field_name_six[$i],
+                'vmobile' => $field_name_seven[$i]
             );
             $i++;
         }
@@ -62,6 +84,7 @@ class Vendor_list extends WP_List_Table{
         $currentPage = $this->get_pagenum();
 
         $data = $this->table_data($customvar);
+        usort( $data, array( &$this, 'sort_data' ));
         $totalitems = count($data);
         $this->set_pagination_args( array(
             'total_items' => $totalitems,
@@ -74,7 +97,8 @@ class Vendor_list extends WP_List_Table{
 
     
     private function sort_data($a,$b){
-        $orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'ID'; //If no sort, default to title
+        echo $orderby;
+        $orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'userId'; //If no sort, default to title
         $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'desc'; //If no order, default to asc
         $result = strcmp($a[$orderby], $b[$orderby]); //Determine sort order
         return ($order==='asc') ? $result :-$result; //Send final sort direction to usort
@@ -83,9 +107,12 @@ class Vendor_list extends WP_List_Table{
     {
         $columns = array(
             'userId' => 'UserId',
-            'user_login' => 'Vendor Login',
+            'user_login' => 'Login Name',
+            'vmobile' => 'Mobile',
+            'user_email' => 'Email',
+            'vcreated_date' => 'Created Date',
             'vstatus' => 'Status',
-            'vcreated_date' => 'Subscription End Data'
+            'edit' => 'Actions',
         );
 
         return $columns;
@@ -97,7 +124,7 @@ class Vendor_list extends WP_List_Table{
 
     public function get_sortable_columns()
     {
-        return array('ID' => array('ID',false));
+        return array('userId' => array('userId',false));
     }
 
     public function column_default($item, $column_name)
@@ -137,13 +164,13 @@ class Vendor_list extends WP_List_Table{
            return $views;
     }
 
-    /*public function column_cb($item)
+    public function column_cb($item)
     {
         return sprintf(
             '<input type="checkbox" name="id[]" value="%s" />',
             $item['pid']
         );
-    }*/
+    }
 
     /*public function get_bulk_actions()
     {
@@ -155,11 +182,11 @@ class Vendor_list extends WP_List_Table{
 
 
 
-    /*public function column_id($item) {
+    public function column_id($item) {
         $actions = array(
             'edit'      => sprintf('<a href="?page=employee_list%s&action=%s&id=%s">Edit</a>',$_REQUEST[''],'edit',$item['id'])
         );
 
         return sprintf('%1$s %2$s', $item['id'], $this->row_actions($actions) );
-    }*/
+    }
 }

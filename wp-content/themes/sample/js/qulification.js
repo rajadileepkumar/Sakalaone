@@ -29,3 +29,6 @@ function print_qual_sub(qual_sub,selectedIndex) {
     }
 }
 
+
+
+

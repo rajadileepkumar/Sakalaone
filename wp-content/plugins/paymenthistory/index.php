@@ -28,7 +28,7 @@ if(!class_exists('Payment_History')){
             <div class="top-header"></div>
             <div class="wrap">
                 <div id="icon-users" class="icon32"></div>
-                <h2>List Of Students</h2>
+                <h2>Payment History</h2>
                 <?php $project_list->views(); ?>
                 <form id="persons-table" method="GET">
                     <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>"/>

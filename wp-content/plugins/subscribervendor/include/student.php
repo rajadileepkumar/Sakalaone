@@ -60,6 +60,7 @@ class Student_list extends WP_List_Table{
         $currentPage = $this->get_pagenum();
 
         $data = $this->table_data($customvar);
+        usort( $data, array( &$this, 'sort_data' ));
         $totalitems = count($data);
         $this->set_pagination_args( array(
             'total_items' => $totalitems,
@@ -72,7 +73,7 @@ class Student_list extends WP_List_Table{
 
     
     private function sort_data($a,$b){
-        $orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'ID'; //If no sort, default to title
+        $orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'userId'; //If no sort, default to title
         $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'desc'; //If no order, default to asc
         $result = strcmp($a[$orderby], $b[$orderby]); //Determine sort order
         return ($order==='asc') ? $result :-$result; //Send final sort direction to usort
@@ -95,7 +96,7 @@ class Student_list extends WP_List_Table{
 
     public function get_sortable_columns()
     {
-        return array('ID' => array('ID',false));
+        return array('userId' => array('userId',false));
     }
 
     public function column_default($item, $column_name)

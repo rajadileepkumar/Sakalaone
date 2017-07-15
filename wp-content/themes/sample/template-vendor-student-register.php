@@ -12,43 +12,16 @@ get_header()?>
 						?>
 							<div class="row">
 								<div class="col-md-12">
-									<h1 class="text-center">Student vendorRegister</h1>
+									<h1 class="text-center">Student Registration</h1>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-12">
 									<form method="post" class="form-horizontal" id="vendorRegisterForm" action="<?php echo site_url('/v-confirm/')?>">
 										<div class="form-group">
-											<label for="vFirstName" class="col-md-4 control-label">First Name</label><span class="vrequired-field">*</span>
-											<div class="col-md-4">
-												<input type="text" placeholder="First Name" id="vFirstName" class="form-control" name="vFirstName">
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="vLastName" class="col-md-4 control-label">Last Name</label>
-											<div class="col-md-4">
-												<input type="text" placeholder="Last Name" id="vLastName" class="form-control" name="vLastName">
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="vUserName" class="col-md-4 control-label">User Name</label><span class="vrequired-field">*</span>
-											<div class="col-md-4">
-												<input type="text" placeholder="User Name" id="vUserName" class="form-control" name="vUserName">
-												<span class="v-available" id="v-available"></span>
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="vEmail" class="col-md-4 control-label">Email</label><span class="vrequired-field">*</span>
-											<div class="col-md-4">
-												<input type="email" placeholder="Email" id="vEmail" class="form-control" name="vEmail">
-												<span class="v-email-available" id="v-email-available"></span>
-											</div>
-										</div>
-										<div class="form-group">
 											<label for="vMobile" class="col-md-4 control-label">Mobile</label><span class="vrequired-field">*</span>
 											<div class="col-md-4">
-												<input type="text" placeholder="Mobile" id="vMobile" class="form-control" name="vMobile">
-												<span class="v-mobile-available" id="v-mobile-available"></span>
+												<input type="text" placeholder="First Name" id="vMobile" class="form-control" name="vMobile">
 											</div>
 										</div>
 										<div class="form-group">
@@ -63,6 +36,20 @@ get_header()?>
 												<input type="password" placeholder="Confirm Password" id="vConfirmPassword" class="form-control" name="vConfirmPassword">
 											</div>
 										</div>
+										<div class="form-group">
+	                                    <label for="qualification" class="col-md-4 control-label">Qualification</label>
+		                                    <div class="col-md-8">
+		                                        <div class="col-md-3 padding-left">
+		                                            <select name="qul" id="qul" class="form-control" onchange="print_qual_sub('qual_sub',this.selectedIndex);">
+		                                            </select>
+		                                            <script type="text/javascript">print_quly("qul");</script>
+		                                        </div>    
+		                                        <div class="col-md-3 padding-left">    
+		                                            <select class="form-control" name="qual_sub" id="qual_sub" disabled>
+		                                            </select>
+		                                        </div>    
+		                                    </div>    
+	                                	</div>
 										<div class="form-group">
 		                                    <label class="col-md-4 control-label"></label>
 		                                    <div class="col-md-4">

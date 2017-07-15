@@ -435,25 +435,57 @@ add_filter('wp_authenticate_user', 'myplugin_auth_login',10,2);
 
 function myplugin_auth_login ($user, $password) {
       global $wpdb;
-      $currentDate = date('Y-m-d');
-      $sql = "Select paymentstatus,subendate,checkstatus From wp_users_metadata where userId = $user->ID";
-      $result = $wpdb->get_results($sql);
+      $wp_users = $wpdb->prefix.'users';
+      $wp_vendor_metadata = $wpdb->prefix.'vendor_metadata';
+      $wp_users_metadata = $wpdb->prefix.'usermeta';
 
-      foreach ($result as $key) {
-        $paymentstatus = $key->paymentstatus;
-        $subendate = $key->subendate;
-        $checkstatus = $key->checkstatus;
+
+      $statusRole = get_userdata($user->ID);
+      $role = implode(', ', $statusRole->roles);
+      $role = str_replace(' ', '', $role);
+      echo $role;
+
+      echo ($role == 'subscriber') ? 'true' : 'false';
+      $currentDate = date('Y-m-d');
+
+      if($role == 'subscriber'){
+          $sql = "Select paymentstatus,subendate,checkstatus From wp_users_metadata where userId = $user->ID";
+          $result = $wpdb->get_results($sql);
+          foreach ($result as $key) {
+            $paymentstatus = $key->paymentstatus;
+            $subendate = $key->subendate;
+            $checkstatus = $key->checkstatus;
+          }
+          if($checkstatus == 1){
+            if ($paymentstatus == 1 && $subendate >= $currentDate) {
+              return $user;
+            }
+            else{
+              return wp_redirect (home_url('/membership-join/?userid='.$user->ID));
+              //return new WP_Error('Subscription Ended');        
+            }
+        }
       }
-      if($checkstatus == 1){
-          if ($paymentstatus == 1 && $subendate >= $currentDate) {
-            return $user;
+      elseif ($role == 'vendor') {
+        $status = $wpdb->get_var("SELECT vm.vstatus FROM $wp_users as u INNER JOIN $wp_vendor_metadata as vm ON u.ID = vm.vuser_id WHERE u.ID = $user->ID");
+        echo $status;
+        if($status == 0){
+            $errors = new WP_Error();
+            $errors->add('title_error', __('<strong>ERROR</strong>: Your account is not Activated Please contact support.', 'podium'));
+            return $errors;
           }
           else{
-            return wp_redirect (home_url('/membership-join/?userid='.$user->ID));
-            //return new WP_Error('Subscription Ended');        
+            return $user;
           }
-      }else{
-          return $user;
+      }
+      elseif ($role == 'editor' || $role == 'administrator') {
+        return $user;
+      }
+
+      else{
+          $errors = new WP_Error();
+          $errors->add('title_error', __('<strong>ERROR</strong>: Your account is not Activated Please contact support.', 'podium'));
+          return $errors;
       }
 }
 
